@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Quân Đội Nhân Dân Việt Nam | BDC</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- BACKGROUND -->
+<div class="bg-main"></div>
+<div class="bg-dark"></div>
+
+<!-- LOGO -->
+<img src="logo-bdc.png" class="logo left">
+<img src="logo-qdoi.png" class="logo right">
+
+<!-- CONTENT -->
+<div class="main">
+
+  <h1 class="title">QUÂN ĐỘI NHÂN DÂN VIỆT NAM | BDC</h1>
+  <h2 class="subtitle">Tra Cứu Kết Quả Tuyển Dụng</h2>
+
+  <div class="search-box">
+    <input id="inputName" placeholder="🔍 Hãy nhập đúng tên Roblox để tra cứu">
+    <button onclick="traCuu()">Tra cứu</button>
+     
+  </div>
+
+  <div id="result"></div>
+
+</div>
+
+<script src="data.js"></script>
+<script>
+function traCuu() {
+  const name = document.getElementById("inputName").value.trim();
+  const list = getThiSinh();
+  const r = document.getElementById("result");
+
+  if (!name) {
+    r.innerHTML = "⚠️ Vui lòng nhập tên Roblox";
+    return;
+  }
+
+  const user = list.find(t => t.name.toLowerCase() === name.toLowerCase());
+
+  if (!user) {
+    r.innerHTML = "❌ Không tìm thấy thí sinh";
+    return;
+  }
+
+  if (user.status === "trung") {
+    r.innerHTML = `🎉 <b>Chúc mừng ${user.name}</b> đã đậu tuyển dụng quân sự!<br>
+    Vui lòng liên hệ Ban Chỉ Huy để được hướng dẫn tiếp.`;
+  } else {
+    r.innerHTML = `❌ <b>${user.name}</b> chưa đạt yêu cầu tuyển dụng.`;
+  }
+}
+</script>
+
+</body>
+</html>
+
+<div class="glass-box">
+  <!-- logo + tiêu đề + ô tìm kiếm + nút tra cứu + kết quả -->
+</div>

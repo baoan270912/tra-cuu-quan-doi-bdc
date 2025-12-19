@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin | Bộ Quốc Phòng</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- BACKGROUND -->
+<div class="admin-bg"></div>
+<div class="admin-dark"></div>
+
+<!-- CONTENT -->
+<div class="admin-wrapper">
+
+  <h1 class="admin-title">🛡️ BỘ QUỐC PHÒNG</h1>
+  <p class="admin-sub">Hệ thống quản lý tuyển dụng quân sự</p>
+
+  <div class="admin-box">
+
+    <!-- LOGIN -->
+    <div class="login">
+      <input type="password" id="pass" placeholder="🔐 Mật khẩu admin">
+      <button onclick="login()">Đăng nhập</button>
+    </div>
+
+    <!-- PANEL -->
+    <div id="panel" style="display:none">
+
+      <h2>📋 Quản lý danh sách thí sinh</h2>
+
+      <div class="form">
+        <input id="name" placeholder="Tên Roblox">
+        <select id="status">
+          <option value="trung">✅ Trúng tuyển</option>
+          <option value="truot">❌ Trượt</option>
+        </select>
+        <button onclick="save()">💾 Lưu</button>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Tên Roblox</th>
+              <th>Trạng thái</th>
+              <th>Hành động</th>
+            </tr>
+          </thead>
+          <tbody id="list"></tbody>
+        </table>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script src="data.js"></script>
+<script>
+const PASSWORD = "BDC123";
+
+function login() {
+  if (document.getElementById("pass").value === PASSWORD) {
+    document.getElementById("panel").style.display = "block";
+  } else alert("Sai mật khẩu!");
+}
+
+function save() {
+  const name = document.getElementById("name").value.trim();
+  const status = document.getElementById("status").value;
+  if (!name) return;
+
+  let list = getThiSinh();
+  const i = list.findIndex(t => t.name === name);
+  if (i >= 0) list[i].status = status;
+  else list.push({ name, status });
+
+  saveThiSinh(list);
+  render();
+}
+
+function del(name) {
+  saveThiSinh(getThiSinh().filter(t => t.name !== name));
+  render();
+}
+
+function render() {
+  const tbody = document.getElementById("list");
+  tbody.innerHTML = "";
+  getThiSinh().forEach(t => {
+    tbody.innerHTML += `
+      <tr>
+        <td>${t.name}</td>
+        <td>${t.status}</td>
+        <td><button class="del" onclick="del('${t.name}')">Xóa</button></td>
+      </tr>
+    `;
+  });
+}
+
+render();
+</script>
+
+</body>
+</html>
